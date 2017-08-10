@@ -84,6 +84,30 @@ class Geminipy(object):
 
         return requests.get(url, params)
 
+    def ticker(self, symbol='btcusd'):
+      """
+      Retrieve information about recent trading activity for the symbol
+
+      Response:
+      bid    -- decimal The highest bid currently available
+      asks   -- decimal The lowest ask currently available
+      last   -- decimal The price of the last executed trade
+      volume -- Information about the 24 hour volume on the exchange. It contains
+                either of these values:
+		-------------------------------------------------------------------------------------------------------
+		|      Field                  |         Type         | Description
+		-------------------------------------------------------------------------------------------------------
+		|      timestamp              |     timestampms      | The end of the 24-hour period over
+		|                             |                      | which volume was measured
+		-------------------------------------------------------------------------------------------------------
+		| (price symbol, e.g. "USD")  |       decimal        |  The volume denominated in the price currency
+		-------------------------------------------------------------------------------------------------------
+		|(quantity symbol, e.g. "BTC")|       decimal        | The volume denominated in the quantity currency
+		-------------------------------------------------------------------------------------------------------
+      """
+      url = self.base_url + '/v1/pubticker/' + symbol
+      return requests.get(url)
+
     # authenticated requests
     def new_order(self, amount, price, side, client_order_id=None,
                   symbol='btcusd', type='exchange limit'):
